@@ -1,0 +1,9 @@
+# Core dependencies (none required - pure Python)
+# Optional dependencies for framework integration
+
+# For FastAPI integration
+fastapi>=0.68.0
+
+# For Flask integration
+flask>=2.0.0
+
