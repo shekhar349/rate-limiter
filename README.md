@@ -57,6 +57,12 @@ pip install -e ".[fastapi]"  # or [flask] or [all]
 
 ## Quick Start
 
+**Note:** When using decorators, import the framework-specific decorator:
+- FastAPI: Use `fastapi_rate_limit`
+- Flask: Use `flask_rate_limit`
+
+This ensures you get the correct decorator for your framework (async for FastAPI, sync for Flask).
+
 ### FastAPI
 
 #### Using Middleware (Recommended)
@@ -90,12 +96,12 @@ async def get_data():
 
 ```python
 from fastapi import FastAPI, Request
-from python_rate_limiter import rate_limit
+from python_rate_limiter import fastapi_rate_limit
 
 app = FastAPI()
 
 @app.get("/api/endpoint")
-@rate_limit(max_requests=10, time_window=60)
+@fastapi_rate_limit(max_requests=10, time_window=60)
 async def endpoint(request: Request):
     return {"message": "Hello"}
 ```
@@ -104,7 +110,7 @@ async def endpoint(request: Request):
 
 ```python
 from fastapi import FastAPI, Request
-from python_rate_limiter import rate_limit
+from python_rate_limiter import fastapi_rate_limit
 
 app = FastAPI()
 
@@ -113,7 +119,7 @@ def get_user_id(request: Request) -> str:
     return request.headers.get("X-User-ID", "anonymous")
 
 @app.get("/api/user-data")
-@rate_limit(max_requests=50, time_window=60, key_func=get_user_id)
+@fastapi_rate_limit(max_requests=50, time_window=60, key_func=get_user_id)
 async def user_data(request: Request):
     return {"user_data": "..."}
 ```
@@ -151,12 +157,12 @@ def get_data():
 
 ```python
 from flask import Flask
-from python_rate_limiter import rate_limit
+from python_rate_limiter import flask_rate_limit
 
 app = Flask(__name__)
 
 @app.route("/api/endpoint")
-@rate_limit(max_requests=10, time_window=60)
+@flask_rate_limit(max_requests=10, time_window=60)
 def endpoint():
     return {"message": "Hello"}
 ```
@@ -165,7 +171,7 @@ def endpoint():
 
 ```python
 from flask import Flask, request
-from python_rate_limiter import rate_limit
+from python_rate_limiter import flask_rate_limit
 
 app = Flask(__name__)
 
@@ -174,7 +180,7 @@ def get_user_id() -> str:
     return request.headers.get("X-User-ID", "anonymous")
 
 @app.route("/api/user-data")
-@rate_limit(max_requests=50, time_window=60, key_func=get_user_id)
+@flask_rate_limit(max_requests=50, time_window=60, key_func=get_user_id)
 def user_data():
     return {"user_data": "..."}
 ```

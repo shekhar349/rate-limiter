@@ -21,6 +21,8 @@ python examples/flask_example.py
 
 The server will start on `http://localhost:5000`
 
+**Note:** Flask doesn't include built-in Swagger UI. Use browser developer tools or Postman for testing. For Swagger UI with Flask, consider using libraries like `flasgger` or `flask-restx`.
+
 ### 2. Test Options
 
 You have three options for testing:
@@ -75,9 +77,12 @@ curl http://localhost:5000/
 
 #### Option C: Browser / Postman
 
+**Note:** Flask doesn't have built-in Swagger UI like FastAPI. Use browser developer tools or Postman for testing.
+
 1. Open `http://localhost:5000/` in your browser
-2. Use browser's developer tools (F12) to check response headers
+2. Use browser's developer tools (F12) to check response headers and make requests
 3. Use Postman or similar tool to test endpoints with custom headers
+4. For Swagger UI with Flask, you can use libraries like `flasgger` or `flask-restx` (not included in this example)
 
 ## Testing Rate Limiting Behavior
 
