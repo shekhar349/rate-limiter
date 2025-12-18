@@ -3,7 +3,7 @@ FastAPI example demonstrating rate limiter usage.
 """
 
 from fastapi import FastAPI, Request
-from python_rate_limiter import FastAPIRateLimiter, rate_limit
+from python_rate_limiter import FastAPIRateLimiter, fastapi_rate_limit
 
 app = FastAPI(title="Rate Limiter FastAPI Example")
 
@@ -37,7 +37,7 @@ async def get_data():
 
 # Example 2: Using decorator (per-route rate limiting)
 @app.get("/api/strict")
-@rate_limit(max_requests=5, time_window=60)  # 5 requests per 60 seconds
+@fastapi_rate_limit(max_requests=5, time_window=60)  # 5 requests per 60 seconds
 async def strict_endpoint(request: Request):
     """Strictly rate limited endpoint"""
     return {
@@ -53,7 +53,7 @@ def get_user_id(request: Request) -> str:
 
 
 @app.get("/api/user-data")
-@rate_limit(max_requests=50, time_window=60, key_func=get_user_id)
+@fastapi_rate_limit(max_requests=50, time_window=60, key_func=get_user_id)
 async def user_data(request: Request):
     """User-specific rate limited endpoint"""
     user_id = get_user_id(request)

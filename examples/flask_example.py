@@ -3,7 +3,7 @@ Flask example demonstrating rate limiter usage.
 """
 
 from flask import Flask, request, jsonify
-from python_rate_limiter import FlaskRateLimiter, rate_limit
+from python_rate_limiter import FlaskRateLimiter, flask_rate_limit
 
 app = Flask(__name__)
 
@@ -43,7 +43,7 @@ def get_data():
 
 # Example 2: Using decorator (per-route rate limiting)
 @app.route("/api/strict")
-@rate_limit(max_requests=5, time_window=60)  # 5 requests per 60 seconds
+@flask_rate_limit(max_requests=5, time_window=60)  # 5 requests per 60 seconds
 def strict_endpoint():
     """Strictly rate limited endpoint"""
     return jsonify({
@@ -59,7 +59,7 @@ def get_user_id() -> str:
 
 
 @app.route("/api/user-data")
-@rate_limit(max_requests=50, time_window=60, key_func=get_user_id)
+@flask_rate_limit(max_requests=50, time_window=60, key_func=get_user_id)
 def user_data():
     """User-specific rate limited endpoint"""
     user_id = get_user_id()

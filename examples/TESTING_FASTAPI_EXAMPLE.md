@@ -6,12 +6,21 @@ This guide explains how to test the `fastapi_example.py` file.
 
 ### Prerequisites
 
-For automated testing, install the `requests` library:
+To run the FastAPI example, install the required dependencies:
+
+1. **uvicorn** (required to run the server):
+```bash
+pip install uvicorn
+```
+
+2. **requests** (optional, for automated testing):
 ```bash
 pip install requests
 ```
 
 ### 1. Start the FastAPI Server
+
+**Note:** Make sure you have `uvicorn` installed (see Prerequisites above).
 
 In one terminal, run:
 
@@ -20,6 +29,11 @@ python examples/fastapi_example.py
 ```
 
 The server will start on `http://localhost:8000`
+
+**Quick Links:**
+- **Swagger UI (Interactive API Docs)**: http://localhost:8000/docs
+- **ReDoc (Alternative API Docs)**: http://localhost:8000/redoc
+- **OpenAPI Schema**: http://localhost:8000/openapi.json
 
 ### 2. Test Options
 
@@ -64,11 +78,17 @@ curl -H "X-User-ID: user123" http://localhost:8000/api/user-data
 for i in {1..10}; do curl http://localhost:8000/api/strict; echo ""; done
 ```
 
-#### Option C: Browser / Postman
+#### Option C: Browser / Swagger UI / Postman
 
-1. Open `http://localhost:8000/docs` in your browser (FastAPI's interactive docs)
-2. Test endpoints directly from the UI
-3. Use the browser's developer tools to check response headers
+**Interactive API Documentation (Swagger UI):**
+- **Swagger UI**: http://localhost:8000/docs
+- **ReDoc**: http://localhost:8000/redoc
+- **OpenAPI Schema**: http://localhost:8000/openapi.json
+
+1. Open http://localhost:8000/docs in your browser (FastAPI's interactive Swagger UI)
+2. Test endpoints directly from the UI - you can see all available endpoints and test them interactively
+3. Use the browser's developer tools (F12) to check response headers
+4. Alternatively, use Postman or similar tools to test endpoints with custom headers
 
 ## Testing Rate Limiting Behavior
 

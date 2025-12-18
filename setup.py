@@ -9,7 +9,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="python-rate-limiter",
-    version="0.1.1",
+    version="1.0.0",
     author="Sudhanshu Shekhar",
     author_email="shekhar349@gmail.com",
     description="A Python rate limiter library for FastAPI and Flask applications",
