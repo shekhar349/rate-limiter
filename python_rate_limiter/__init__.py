@@ -1,5 +1,5 @@
 """
-Rate Limiter - A Python library for rate limiting in FastAPI and Flask applications.
+Rate Limiter - A Python library for rate limiting in FastAPI, Flask, and Django applications.
 """
 
 from .core import RateLimiter, RateLimitExceeded
@@ -55,4 +55,27 @@ except ImportError:
         )
     
     __all__.extend(["FlaskRateLimiter", "flask_rate_limit"])
+
+# Optional Django integration
+try:
+    from .django_integration import DjangoRateLimiter, rate_limit as django_rate_limit
+    __all__.extend(["DjangoRateLimiter", "django_rate_limit"])
+except ImportError:
+    # Django is not installed - create helpful error class
+    class _DjangoNotInstalled:
+        def __init__(self, *args, **kwargs):
+            raise ImportError(
+                "Django integration requires Django to be installed. "
+                "Install it with: pip install python-rate-limiter[django]"
+            )
+    
+    DjangoRateLimiter = _DjangoNotInstalled
+    
+    def django_rate_limit(*args, **kwargs):
+        raise ImportError(
+            "Django integration requires Django to be installed. "
+            "Install it with: pip install python-rate-limiter[django]"
+        )
+    
+    __all__.extend(["DjangoRateLimiter", "django_rate_limit"])
 

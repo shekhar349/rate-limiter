@@ -12,7 +12,7 @@ setup(
     version="1.0.0",
     author="Sudhanshu Shekhar",
     author_email="shekhar349@gmail.com",
-    description="A Python rate limiter library for FastAPI and Flask applications",
+    description="A Python rate limiter library for FastAPI, Flask, and Django applications",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/shekhar349/python-rate-limiter",
@@ -34,7 +34,8 @@ setup(
     extras_require={
         "fastapi": ["fastapi>=0.68.0"],
         "flask": ["flask>=2.0.0"],
-        "all": ["fastapi>=0.68.0", "flask>=2.0.0"],
+        "django": ["django>=3.2.0"],
+        "all": ["fastapi>=0.68.0", "flask>=2.0.0", "django>=3.2.0"],
     },
 )
 

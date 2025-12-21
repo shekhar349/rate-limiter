@@ -1,6 +1,6 @@
 # Rate Limiter
 
-A Python rate limiter library for FastAPI and Flask applications. This library provides a simple, thread-safe rate limiting implementation using a sliding window algorithm.
+A Python rate limiter library for FastAPI, Flask, and Django applications. This library provides a simple, thread-safe rate limiting implementation using a sliding window algorithm.
 
 [![PyPI version](https://badge.fury.io/py/python-rate-limiter.svg)](https://pypi.org/project/python-rate-limiter/)
 [![GitHub](https://img.shields.io/github/stars/shekhar349/rate-limiter?style=social)](https://github.com/shekhar349/rate-limiter)
@@ -10,7 +10,7 @@ A Python rate limiter library for FastAPI and Flask applications. This library p
 
 ## Features
 
-- 🚀 **Easy to use** - Simple API for both FastAPI and Flask
+- 🚀 **Easy to use** - Simple API for FastAPI, Flask, and Django
 - 🔒 **Thread-safe** - Safe for concurrent requests
 - ⚡ **Lightweight** - No external dependencies for core functionality
 - 🎯 **Flexible** - Support for custom key functions and exempt paths
@@ -33,7 +33,10 @@ pip install python-rate-limiter[fastapi]
 # Flask
 pip install python-rate-limiter[flask]
 
-# Both frameworks
+# Django
+pip install python-rate-limiter[django]
+
+# All frameworks
 pip install python-rate-limiter[all]
 ```
 
@@ -52,7 +55,7 @@ pip install git+https://github.com/shekhar349/rate-limiter.git
 pip install -e .
 
 # With extras
-pip install -e ".[fastapi]"  # or [flask] or [all]
+pip install -e ".[fastapi]"  # or [flask] or [django] or [all]
 ```
 
 ## Quick Start
@@ -60,8 +63,9 @@ pip install -e ".[fastapi]"  # or [flask] or [all]
 **Note:** When using decorators, import the framework-specific decorator:
 - FastAPI: Use `fastapi_rate_limit`
 - Flask: Use `flask_rate_limit`
+- Django: Use `django_rate_limit`
 
-This ensures you get the correct decorator for your framework (async for FastAPI, sync for Flask).
+This ensures you get the correct decorator for your framework (async for FastAPI, sync for Flask and Django).
 
 ### FastAPI
 
@@ -185,6 +189,55 @@ def user_data():
     return {"user_data": "..."}
 ```
 
+### Django
+
+#### Using Middleware (Recommended)
+
+```python
+from django.http import JsonResponse
+from python_rate_limiter import DjangoRateLimiter
+
+# Add to MIDDLEWARE in settings.py:
+# MIDDLEWARE = [
+#     ...
+#     'python_rate_limiter.django_integration.DjangoRateLimiter',
+# ]
+
+# Or configure in settings.py:
+# RATE_LIMITER_MAX_REQUESTS = 100
+# RATE_LIMITER_TIME_WINDOW = 60.0
+# RATE_LIMITER_EXEMPT_PATHS = ["/admin/", "/static/"]
+
+def my_view(request):
+    return JsonResponse({"message": "Hello World"})
+```
+
+#### Using Decorator
+
+```python
+from django.http import JsonResponse
+from python_rate_limiter import django_rate_limit
+
+@django_rate_limit(max_requests=10, time_window=60)
+def my_view(request):
+    return JsonResponse({"message": "Hello"})
+```
+
+#### Custom Key Function
+
+```python
+from django.http import JsonResponse, HttpRequest
+from python_rate_limiter import django_rate_limit
+
+def get_user_id(request: HttpRequest) -> str:
+    # Extract user ID from request (e.g., from session or JWT)
+    return request.META.get("HTTP_X_USER_ID", "anonymous")
+
+@django_rate_limit(max_requests=50, time_window=60, key_func=get_user_id)
+def user_data(request):
+    return JsonResponse({"user_data": "..."})
+```
+
 ## Core API
 
 ### RateLimiter
@@ -240,7 +293,7 @@ When rate limit is exceeded, the library returns:
 
 ## Configuration Options
 
-### FastAPIRateLimiter / FlaskRateLimiter
+### FastAPIRateLimiter / FlaskRateLimiter / DjangoRateLimiter
 
 - `max_requests` (int): Maximum number of requests allowed (default: 100)
 - `time_window` (float): Time window in seconds (default: 60.0)

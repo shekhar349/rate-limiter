@@ -9,7 +9,7 @@ This guide explains how to publish the python-rate-limiter package to PyPI.
    - Check availability: https://pypi.org/project/python-rate-limiter/
    - If taken, consider alternatives like:
      - `api-rate-limiter`
-     - `fastapi-flask-rate-limiter`
+     - `fastapi-flask-django-rate-limiter`
      - Or use your own namespace: `yourname-rate-limiter`
 
 2. **Create PyPI Accounts**
